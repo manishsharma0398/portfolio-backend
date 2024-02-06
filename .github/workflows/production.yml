@@ -23,6 +23,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
+          secrets: | 
+            PORT=${{ secrets.PORT }}
       - run: git checkout master
 
       - name: "Create env file"
