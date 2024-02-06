@@ -1,16 +1,19 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js Production CI
+name: Node.js CI
 
 on:
   push:
-    branches: ["master"]
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
     runs-on: self-hosted
-    environment: production
+    environment:
+      name: ${{ github.event_name == 'push' && contains(github.event.ref, 'master') && 'production' || 'stagging' }}
 
     strategy:
       matrix:
@@ -24,11 +27,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-      - run: git checkout master
+
+      - run: git checkout ${{ github.event.ref }}
+      - run: git pull origin ${{ github.event.ref }}
 
       - name: "Create env file"
-        run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
+        run: echo "${{ secrets.ENV_FILE }}" > .env
 
       - run: yarn install --frozen-lockfile
-      - run: pm2 restart production-server
+      - run: pm2 restart ${{ github.event_name == 'push' && contains(github.event.ref, 'master') && 'production' || 'staging' }}-server
