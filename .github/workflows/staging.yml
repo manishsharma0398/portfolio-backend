@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    environment: stagging
 
     strategy:
       matrix:
@@ -25,5 +26,10 @@ jobs:
           cache: "yarn"
       - run: git checkout develop
       - run: git pull origin develop
+
+      - name: "Create env file"
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+
       - run: yarn install --frozen-lockfile
       - run: pm2 restart staging-server
