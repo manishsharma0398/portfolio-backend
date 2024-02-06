@@ -14,6 +14,7 @@
   "author": "Manish Sharma<manish.sharma0398@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.1",
     "express": "^4.18.2"
   },
   "devDependencies": {
