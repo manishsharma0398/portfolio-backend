@@ -26,3 +26,4 @@ jobs:
       - run: git checkout master
       - run: yarn install --frozen-lockfile
       - run: pm2 start index.js
+      - run: pm2 restart production-server

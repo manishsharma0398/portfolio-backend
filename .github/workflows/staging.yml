@@ -26,4 +26,4 @@ jobs:
       - run: git checkout develop
       - run: git pull origin develop
       - run: yarn install --frozen-lockfile
-      - run: pm2 start index.js
+      - run: pm2 restart staging-server
