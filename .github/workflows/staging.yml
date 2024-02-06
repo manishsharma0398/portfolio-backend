@@ -26,4 +26,3 @@ jobs:
       - run: git checkout develop
       - run: git pull origin develop
       - run: yarn install --frozen-lockfile
-      - run: yarn build
